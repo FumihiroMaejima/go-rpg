@@ -1,3 +1,8 @@
+CMD=default
+
+echo:
+	@echo $(CMD)
+
 ##############################
 # make docker environmental
 ##############################
@@ -86,6 +91,36 @@ backend-serve:
 	cd app/backend && php artisan serve
 
 ##############################
+# backend go
+##############################
+
+back-app:
+	cd app/backend && ./dist/app $(CMD)
+
+back-serve:
+	cd app/backend && ./dist/app $(CMD)
+
+back-dev:
+	cd app/backend && go run src/main.go $(CMD)
+
+main:
+	cd app/backend && go build -o dist/app src/main.go
+
+tidy:
+	cd app/backend && go mod tidy
+
+test:
+	cd app/backend && go test -v ./src/...
+
+module:
+ifeq ($(CMD),basic)
+	@echo invalid parameter!
+else
+	@echo make new module: $(CMD)
+	@mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+endif
+
+##############################
 # web server(nginx)
 ##############################
 nginx-t:
@@ -157,3 +192,9 @@ codegen-prestart:
 
 codegen-start:
 	cd api/node-mock && npm run start
+
+##############################
+# etc
+##############################
+request:
+	curl localhost:8080/public
