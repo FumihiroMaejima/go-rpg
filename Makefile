@@ -117,7 +117,7 @@ ifeq ($(CMD),basic)
 	@echo invalid parameter!
 else
 	@echo make new module: $(CMD)
-	@mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@cd app/backend && mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
 endif
 
 ##############################
