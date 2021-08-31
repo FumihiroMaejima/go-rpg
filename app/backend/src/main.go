@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"go-rpg/util"
+	"go-rpg/web"
 )
 
 func main() {
@@ -20,6 +21,7 @@ func main() {
 	log.Output(0, " ------------------\n execute applicataion: "+command)
 
 	fmt.Println("command value!!", command)
+	web.App()
 
 	log.Output(0, " ------------------\n fishish application: "+command)
 }
