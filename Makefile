@@ -21,7 +21,7 @@ ps:
 	docker-compose ps
 
 dev:
-	sh ./scripts/dev.sh
+	sh ./scripts/docker.sh
 
 ##############################
 # make frontend production in nginx container
