@@ -194,6 +194,12 @@ codegen-start:
 	cd api/node-mock && npm run start
 
 ##############################
+# integration
+##############################
+prod:
+	sh ./scripts/db.sh && sh ./scripts/docker.sh
+
+##############################
 # etc
 ##############################
 request:
