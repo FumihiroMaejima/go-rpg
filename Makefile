@@ -21,7 +21,7 @@ ps:
 	docker-compose ps
 
 dev:
-	sh ./scripts/dev.sh
+	sh ./scripts/docker.sh
 
 ##############################
 # make frontend production in nginx container
@@ -113,11 +113,19 @@ test:
 	cd app/backend && go test -v ./src/...
 
 module:
-ifeq ($(CMD),basic)
+ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
 	@echo make new module: $(CMD)
 	@cd app/backend && mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+endif
+
+repository:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new module: $(CMD)
+	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/${CMD} && go mod init ${CMD} && touch ${CMD}.go
 endif
 
 ##############################
@@ -192,6 +200,12 @@ codegen-prestart:
 
 codegen-start:
 	cd api/node-mock && npm run start
+
+##############################
+# integration
+##############################
+prod:
+	sh ./scripts/db.sh && sh ./scripts/docker.sh
 
 ##############################
 # etc
