@@ -22,11 +22,13 @@ type User struct {
 func FetchUsers() []User {
 	db := db.Connection()
 	defer db.Close()
+	table := "users"
+	columns := "*"
 
 	//rowを取得
 	// rows, err := db.Query("SELECT id, name FROM users")
 	// ワrows.Scan()で指定するカラムと合わせる
-	rows, err := db.Query("SELECT * FROM users")
+	rows, err := db.Query("SELECT " + columns + " FROM " + table)
 	if err != nil {
 		log.Fatal("SQL Query Error.")
 		panic(err.Error())
