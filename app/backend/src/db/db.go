@@ -11,16 +11,36 @@ import (
 
 /**
  * connect database.
+ * @return {*sql.DB}
+ */
+func Connection() *sql.DB {
+	fmt.Println("Start DataBase Connection:...... ")
+
+	// db, err := sql.Open("mysql", "userName:passWord@/dbName")
+	db, err := sql.Open("mysql", os.Getenv("DB_USER")+":"+os.Getenv("DB_PASSWORD")+"@/"+os.Getenv("DB_DATABASE"))
+	if err != nil {
+		log.Fatal("DataBase Connection Error.")
+		log.Fatal(err)
+		panic(err.Error())
+	}
+
+	return db
+}
+
+/**
+ * connect database test.
  * @return {string}
  */
-func Connection() string {
-	fmt.Println("Connection:...... ")
+func ConnectionTest() string {
+	fmt.Println("Start DataBase Connection:...... ")
 	msg := ""
 
 	// db, err := sql.Open("mysql", "userName:passWord@/dbName")
 	db, err := sql.Open("mysql", os.Getenv("DB_USER")+":"+os.Getenv("DB_PASSWORD")+"@/"+os.Getenv("DB_DATABASE"))
 	if err != nil {
+		log.Fatal("DataBase Connection Error.")
 		log.Fatal(err)
+		panic(err.Error())
 	}
 	defer db.Close()
 
@@ -32,6 +52,5 @@ func Connection() string {
 	}
 	fmt.Println(name)
 
-	// ssssss := os.Getenv("TEST_VALUE")
 	return msg
 }
