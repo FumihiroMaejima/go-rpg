@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 
+	"go-rpg/db"
+
 	"github.com/gorilla/mux"
 )
 
@@ -47,6 +49,8 @@ func GetRouter() *mux.Router {
  */
 func App() {
 	fmt.Println("Execute Application Server:...... ")
+
+	db.Connection()
 
 	//サーバー起動
 	if err := http.ListenAndServe(":8080", GetRouter()); err != nil {
