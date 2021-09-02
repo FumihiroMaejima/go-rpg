@@ -24,9 +24,9 @@ func FetchUsers() []User {
 	defer db.Close()
 
 	//rowを取得
-	rows, err := db.Query("SELECT id, name FROM users")
-	// aワイルドカードまたはすべてのkey指定だとrows.Scan()でエラー
-	// rows, err := db.Query("SELECT * FROM users")
+	// rows, err := db.Query("SELECT id, name FROM users")
+	// ワrows.Scan()で指定するカラムと合わせる
+	rows, err := db.Query("SELECT * FROM users")
 	if err != nil {
 		log.Fatal("SQL Query Error.")
 		panic(err.Error())
@@ -39,7 +39,9 @@ func FetchUsers() []User {
 
 	for rows.Next() {
 		var user User
-		err = rows.Scan(&user.ID, &user.Name)
+
+		// Scan()では取得したカラム全てを指定する必要がある
+		err = rows.Scan(&user.ID, &user.Name, &user.FirstName, &user.LastName)
 		if err != nil {
 			log.Fatal("Rows Scan Error.")
 			panic(err.Error())
