@@ -35,60 +35,17 @@ frontend-build:
 ##############################
 # backend
 ##############################
-migrate:
-	docker-compose exec app php artisan migrate
+container-dev:
+	docker-compose exec app go run src/main.go $(CMD)
 
-# データベースから全テーブルをドロップし、その後migrateを行う
-migrate-fresh:
-	docker-compose exec app php artisan migrate:fresh --seed
+container-build:
+	docker-compose exec app go build -o dist/app src/main.go
 
-# 全部のデータベースマイグレーションを最初にロールバックし,その後migrateを行う
-migrate-refresh:
-	docker-compose exec app php artisan migrate:refresh --seed
+container-tidy:
+	docker-compose exec app go mod tidy
 
-# migrationを全てロールバックする
-migrate-reset:
-	docker-compose exec app php artisan migrate:reset
-
-seed:
-	docker-compose exec app php artisan db:seed
-
-tinker:
-	docker-compose exec app php artisan tinker
-
-composer-install:
-	docker-compose exec app composer install
-
-composer-update:
-	docker-compose exec app composer update
-
-dump-autoload:
-	docker-compose exec app composer dump-autoload
-
-cache-clear:
-	docker-compose exec app php artisan cache:clear
-
-view-clear:
-	docker-compose exec app php artisan view:clear
-
-config-clear:
-	docker-compose exec app php artisan config:clear
-
-phpunit:
-	docker-compose exec app vendor/bin/phpunit --testdox
-
-phpcsfix:
-	docker-compose exec app vendor/bin/php-cs-fixer fix -v
-
-phpcs:
-	docker-compose exec app vendor/bin/phpcs --standard=phpcs.xml --extensions=php .
-
-phpmd:
-	docker-compose exec app vendor/bin/phpmd . text ruleset.xml --suffixes php --exclude node_modules,resources,storage,vendor,app/Console, database/seeds
-
-# local server
-backend-serve:
-	cd app/backend && php artisan serve
+container-test:
+	docker-compose exec app go test -v ./src/...
 
 ##############################
 # backend go
@@ -117,15 +74,23 @@ ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
 	@echo make new module: $(CMD)
-	@cd app/backend && mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@cd app/backend && mkdir src/$(CMD) && cd src/$(CMD) && go mod init $(CMD) && touch $(CMD).go
+endif
+
+controller:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new controller: $(CMD)Controller
+	@cd app/backend && mkdir src/controllers/$(CMD)Controller && cd src/controllers/${CMD}Controller && go mod init ${CMD}Controller && touch ${CMD}Controller.go
 endif
 
 repository:
 ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
-	@echo make new module: $(CMD)
-	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@echo make new repository: $(CMD)
+	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/$(CMD) && go mod init $(CMD) && touch $(CMD).go
 endif
 
 ##############################

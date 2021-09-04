@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"go-rpg/controllers/usersController"
 	"go-rpg/repository/users"
 
 	"github.com/gorilla/mux"
@@ -18,9 +19,9 @@ type responseType struct {
 	Address string `json:"address"`
 }
 
-var public = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+func Public(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Recieve Request: ")
-	fmt.Println("Request: ", request)
+	fmt.Println("Request: ", r)
 
 	users := users.FetchUsers()
 
@@ -30,7 +31,7 @@ var public = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Req
 		Detail:  "test detail",
 		Address: "test address",
 	}
-	json.NewEncoder(writer).Encode(response) */
+	json.NewEncoder(w).Encode(response) */
 
 	//json形式に変換
 	bytes, err := json.Marshal(users)
@@ -38,8 +39,11 @@ var public = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Req
 		log.Fatal("Json Encoding Error.")
 		log.Fatal(err)
 	}
-	writer.Write([]byte(string(bytes)))
-})
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(string(bytes)))
+}
 
 /**
  * get router data.
@@ -48,7 +52,9 @@ var public = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Req
 func GetRouter() *mux.Router {
 	router := mux.NewRouter()
 	// localhost:8080/publicでpublicハンドラーを実行
-	router.Handle("/public", public)
+	// router.Handle("/public", public)
+	// router.HandleFunc("/public", Public).Methods("GET")
+	router.HandleFunc("/public", usersController.Get).Methods("GET")
 
 	return router
 }

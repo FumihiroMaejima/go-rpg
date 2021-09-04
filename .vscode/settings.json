@@ -1,4 +1,12 @@
 {
+    "[go]": {
+        // "editor.formatOnSave": false,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": false
+        },
+        // Optional: Disable snippets, as they conflict with completion ranking.
+        // "editor.snippetSuggestions": "none"
+    },
     "go.toolsEnvVars": {
         // "GOFLAGS": "-tags=integration"
     },
