@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"go-rpg/controllers/usersController"
 	"go-rpg/repository/users"
 
 	"github.com/gorilla/mux"
@@ -52,7 +53,8 @@ func GetRouter() *mux.Router {
 	router := mux.NewRouter()
 	// localhost:8080/publicでpublicハンドラーを実行
 	// router.Handle("/public", public)
-	router.HandleFunc("/public", Public).Methods("GET")
+	// router.HandleFunc("/public", Public).Methods("GET")
+	router.HandleFunc("/public", usersController.Get).Methods("GET")
 
 	return router
 }
