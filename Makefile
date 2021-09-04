@@ -74,15 +74,15 @@ ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
 	@echo make new module: $(CMD)
-	@cd app/backend && mkdir src/$(CMD) && cd src/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@cd app/backend && mkdir src/$(CMD) && cd src/$(CMD) && go mod init $(CMD) && touch $(CMD).go
 endif
 
 controller:
 ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
-	@echo make new controller: $(CMD)
-	@cd app/backend && mkdir src/controllers/$(CMD) && cd src/controllers/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@echo make new controller: $(CMD)Controller
+	@cd app/backend && mkdir src/controllers/$(CMD)Controller && cd src/controllers/${CMD}Controller && go mod init ${CMD}Controller && touch ${CMD}Controller.go
 endif
 
 repository:
@@ -90,7 +90,7 @@ ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
 	@echo make new repository: $(CMD)
-	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/${CMD} && go mod init ${CMD} && touch ${CMD}.go
+	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/$(CMD) && go mod init $(CMD) && touch $(CMD).go
 endif
 
 ##############################
