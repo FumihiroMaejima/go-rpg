@@ -25,12 +25,12 @@ func TestCheckEnvValue(t *testing.T) {
 }
 
 func TestMain(m *testing.M) {
-	// 開始処理
-	log.Print("setup")
+	// 開始
+	log.Print("util_test: start")
 	// パッケージ内のテストの実行
 	code := m.Run()
-	// 終了処理
-	log.Print("tear-down")
+	// 終了
+	log.Print("util_test: end")
 	// テストの終了コードで exit
 	os.Exit(code)
 }
