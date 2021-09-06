@@ -18,7 +18,12 @@ func TestConnection(t *testing.T) {
 		want *sql.DB
 	}{
 		// TODO: Add test cases.
+		/* {
+			name: "test name",
+			want: "expect value",
+		}, */
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := db.Connection(); !reflect.DeepEqual(got, tt.want) {
