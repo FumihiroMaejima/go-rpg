@@ -9,7 +9,7 @@ echo ${SEPARATOPION}
 echo ${START_MESSAGE}
 
 # ls ${HOME}/dev
-cd ${TARGET} && make dev
+cd ${TARGET} && make serve
 
 echo ${SEPARATOPION}
 echo 'Please "make db" again if you would start or stop local db!'

@@ -21,7 +21,7 @@ ps:
 	docker-compose ps
 
 dev:
-	sh ./scripts/docker.sh
+	sh ./scripts/container.sh
 
 ##############################
 # make frontend production in nginx container
@@ -170,7 +170,7 @@ codegen-start:
 # integration
 ##############################
 prod:
-	sh ./scripts/db.sh && sh ./scripts/docker.sh
+	sh ./scripts/db.sh && sh ./scripts/container.sh
 
 ##############################
 # etc
