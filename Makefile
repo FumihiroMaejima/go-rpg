@@ -51,9 +51,6 @@ container-test:
 # backend go
 ##############################
 
-back-app:
-	cd app/backend && ./dist/app $(CMD)
-
 back-serve:
 	cd app/backend && ./dist/app $(CMD)
 
@@ -65,6 +62,9 @@ main:
 
 tidy:
 	cd app/backend && go mod tidy
+
+module-list:
+	cd app/backend && go list -m all
 
 test:
 	cd app/backend && go test -v ./src/...
