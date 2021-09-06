@@ -93,6 +93,14 @@ else
 	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/$(CMD) && go mod init $(CMD) && touch $(CMD).go
 endif
 
+service:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new service: $(CMD)
+	@cd app/backend && mkdir src/services/$(CMD)Service && cd src/services/$(CMD)Service && go mod init $(CMD)Service && touch $(CMD)Service.go
+endif
+
 ##############################
 # web server(nginx)
 ##############################
