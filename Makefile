@@ -21,7 +21,7 @@ ps:
 	docker-compose ps
 
 dev:
-	sh ./scripts/docker.sh
+	sh ./scripts/container.sh
 
 ##############################
 # make frontend production in nginx container
@@ -51,9 +51,6 @@ container-test:
 # backend go
 ##############################
 
-back-app:
-	cd app/backend && ./dist/app $(CMD)
-
 back-serve:
 	cd app/backend && ./dist/app $(CMD)
 
@@ -65,6 +62,9 @@ main:
 
 tidy:
 	cd app/backend && go mod tidy
+
+module-list:
+	cd app/backend && go list -m all
 
 test:
 	cd app/backend && go test -v ./src/...
@@ -89,8 +89,16 @@ repository:
 ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
-	@echo make new repository: $(CMD)
-	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/$(CMD) && go mod init $(CMD) && touch $(CMD).go
+	@echo make new repository: $(CMD)Repository
+	@cd app/backend && mkdir src/repositories/$(CMD)Repository && cd src/repositories/$(CMD)Repository && go mod init $(CMD)Repository && touch $(CMD)Repository.go
+endif
+
+service:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new service: $(CMD)
+	@cd app/backend && mkdir src/services/$(CMD)Service && cd src/services/$(CMD)Service && go mod init $(CMD)Service && touch $(CMD)Service.go
 endif
 
 ##############################
@@ -170,7 +178,7 @@ codegen-start:
 # integration
 ##############################
 prod:
-	sh ./scripts/db.sh && sh ./scripts/docker.sh
+	sh ./scripts/db.sh && sh ./scripts/container.sh
 
 ##############################
 # etc
