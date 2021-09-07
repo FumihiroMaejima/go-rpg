@@ -6,7 +6,7 @@ replace go-rpg/controllers/usersController => ./src/controllers/usersController
 
 replace go-rpg/db => ./src/db
 
-replace go-rpg/repository/users => ./src/repository/users
+replace go-rpg/repositories/usersRepository => ./src/repositories/usersRepository
 
 replace go-rpg/util => ./src/util
 
@@ -20,7 +20,7 @@ require (
 	github.com/joho/godotenv v1.3.0 // indirect
 	go-rpg/controllers/usersController v0.0.0-00010101000000-000000000000 // indirect
 	go-rpg/db v0.0.0-00010101000000-000000000000
-	go-rpg/repository/users v0.0.0-00010101000000-000000000000 // indirect
+	go-rpg/repositories/usersRepository v0.0.0-00010101000000-000000000000 // indirect
 	go-rpg/services/usersService v0.0.0-00010101000000-000000000000 // indirect
 	go-rpg/util v0.0.0-00010101000000-000000000000
 	go-rpg/web v0.0.0-00010101000000-000000000000

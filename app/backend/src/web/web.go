@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"go-rpg/controllers/usersController"
-	"go-rpg/repository/users"
+	"go-rpg/repositories/usersRepository"
 
 	"github.com/gorilla/mux"
 )
@@ -23,7 +23,7 @@ func Public(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Recieve Request: ")
 	fmt.Println("Request: ", r)
 
-	users := users.FetchUsers()
+	users := usersRepository.FetchUsers()
 
 	/* response := &responseType{
 		Id:      1,

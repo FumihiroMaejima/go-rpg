@@ -89,8 +89,8 @@ repository:
 ifeq ($(CMD),default)
 	@echo invalid parameter!
 else
-	@echo make new repository: $(CMD)
-	@cd app/backend && mkdir src/repository/$(CMD) && cd src/repository/$(CMD) && go mod init $(CMD) && touch $(CMD).go
+	@echo make new repository: $(CMD)Repository
+	@cd app/backend && mkdir src/repositories/$(CMD)Repository && cd src/repositories/$(CMD)Repository && go mod init $(CMD)Repository && touch $(CMD)Repository.go
 endif
 
 service:

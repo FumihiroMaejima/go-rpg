@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"go-rpg/repository/users"
+	"go-rpg/repositories/usersRepository"
 )
 
 /**
@@ -19,7 +19,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) []byte {
 	fmt.Println("GetUsers Service: ")
 	fmt.Println("Request: ", r)
 
-	users := users.FetchUsers()
+	users := usersRepository.FetchUsers()
 
 	//json形式に変換
 	bytes, err := json.Marshal(users)
