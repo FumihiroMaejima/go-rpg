@@ -1,3 +1,8 @@
+CMD=default
+
+echo:
+	@echo $(CMD)
+
 ##############################
 # make docker environmental
 ##############################
@@ -16,7 +21,7 @@ ps:
 	docker-compose ps
 
 dev:
-	sh ./scripts/dev.sh
+	sh ./scripts/container.sh
 
 ##############################
 # make frontend production in nginx container
@@ -30,60 +35,71 @@ frontend-build:
 ##############################
 # backend
 ##############################
-migrate:
-	docker-compose exec app php artisan migrate
+container-dev:
+	docker-compose exec app go run src/main.go $(CMD)
 
-# データベースから全テーブルをドロップし、その後migrateを行う
-migrate-fresh:
-	docker-compose exec app php artisan migrate:fresh --seed
+container-build:
+	docker-compose exec app go build -o dist/app src/main.go
 
-# 全部のデータベースマイグレーションを最初にロールバックし,その後migrateを行う
-migrate-refresh:
-	docker-compose exec app php artisan migrate:refresh --seed
+container-tidy:
+	docker-compose exec app go mod tidy
 
-# migrationを全てロールバックする
-migrate-reset:
-	docker-compose exec app php artisan migrate:reset
+container-test:
+	docker-compose exec app go test -v ./src/...
 
-seed:
-	docker-compose exec app php artisan db:seed
+##############################
+# backend go
+##############################
 
-tinker:
-	docker-compose exec app php artisan tinker
+back-serve:
+	cd app/backend && ./dist/app $(CMD)
 
-composer-install:
-	docker-compose exec app composer install
+back-dev:
+	cd app/backend && go run src/main.go $(CMD)
 
-composer-update:
-	docker-compose exec app composer update
+main:
+	cd app/backend && go build -o dist/app src/main.go
 
-dump-autoload:
-	docker-compose exec app composer dump-autoload
+tidy:
+	cd app/backend && go mod tidy
 
-cache-clear:
-	docker-compose exec app php artisan cache:clear
+module-list:
+	cd app/backend && go list -m all
 
-view-clear:
-	docker-compose exec app php artisan view:clear
+test:
+	cd app/backend && go test -v ./src/...
 
-config-clear:
-	docker-compose exec app php artisan config:clear
+module:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new module: $(CMD)
+	@cd app/backend && mkdir src/$(CMD) && cd src/$(CMD) && go mod init $(CMD) && touch $(CMD).go
+endif
 
-phpunit:
-	docker-compose exec app vendor/bin/phpunit --testdox
+controller:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new controller: $(CMD)Controller
+	@cd app/backend && mkdir src/controllers/$(CMD)Controller && cd src/controllers/${CMD}Controller && go mod init ${CMD}Controller && touch ${CMD}Controller.go
+endif
 
-phpcsfix:
-	docker-compose exec app vendor/bin/php-cs-fixer fix -v
+repository:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new repository: $(CMD)Repository
+	@cd app/backend && mkdir src/repositories/$(CMD)Repository && cd src/repositories/$(CMD)Repository && go mod init $(CMD)Repository && touch $(CMD)Repository.go
+endif
 
-phpcs:
-	docker-compose exec app vendor/bin/phpcs --standard=phpcs.xml --extensions=php .
-
-phpmd:
-	docker-compose exec app vendor/bin/phpmd . text ruleset.xml --suffixes php --exclude node_modules,resources,storage,vendor,app/Console, database/seeds
-
-# local server
-backend-serve:
-	cd app/backend && php artisan serve
+service:
+ifeq ($(CMD),default)
+	@echo invalid parameter!
+else
+	@echo make new service: $(CMD)
+	@cd app/backend && mkdir src/services/$(CMD)Service && cd src/services/$(CMD)Service && go mod init $(CMD)Service && touch $(CMD)Service.go
+endif
 
 ##############################
 # web server(nginx)
@@ -157,3 +173,15 @@ codegen-prestart:
 
 codegen-start:
 	cd api/node-mock && npm run start
+
+##############################
+# integration
+##############################
+prod:
+	sh ./scripts/db.sh && sh ./scripts/container.sh
+
+##############################
+# etc
+##############################
+request:
+	curl localhost:8080/public
