@@ -1,9 +1,16 @@
 #!/bin/sh
 
+# CURRENT_DIR=$(cd $(dirname $0); pwd)
 SEPARATOPION='---------------------------+'
 START_MESSAGE='check container status.'
-echo ${SEPARATOPION}
-echo ${START_MESSAGE}
+
+# @param {string} message
+showMessage() {
+  echo ${SEPARATOPION}
+  echo $1
+}
+
+showMessage ${START_MESSAGE}
 
 # プロセスチェック結果を変数に格納
 CHECK_PROCESS_MESSAGE=`docker-compose ps`
@@ -27,25 +34,20 @@ echo ${SEPARATOPION}
 # チェック結果の長さごとに実行するコマンドの制御を行う
 if [ ${LINES_LENGTH} -eq 5 ]; then
   # コンテナが立ち上がっていない状態の時
-  echo 'Up Docker Container!'
-  echo ${SEPARATOPION}
+  showMessage 'Up Docker Container!'
   docker-compose up -d
 elif [ ${LINES_LENGTH} -eq 22 ]; then
   # コンテナが立ち上がっている状態の時
   # Exitなどのエラー状態の判別が出来ればより便利
-  echo 'Down Docker Container!'
-  echo ${SEPARATOPION}
+  showMessage 'Down Docker Container!'
   docker-compose down
 else
 　# コンテナが立ち上がっている状態の時
-  echo 'Down Docker Container!'
-  echo ${SEPARATOPION}
+  showMessage 'Down Docker Container!'
   docker-compose down
 fi
 
 # 現在のDocker コンテナの状態を出力
-echo ${SEPARATOPION}
-echo 'Current Docker Status.'
-echo ${SEPARATOPION}
+showMessage 'Current Docker Status.'
 docker-compose ps
 

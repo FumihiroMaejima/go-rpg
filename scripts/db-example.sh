@@ -1,15 +1,21 @@
 #!/bin/sh
 
+# CURRENT_DIR=$(cd $(dirname $0); pwd)
 SEPARATOPION='---------------------------'
 START_MESSAGE='controle local db container.'
-# CURRENT=${PWD}
+
 # プロジェクトごとにパスを調整する
 TARGET=${HOME}/path/local-db
-echo ${SEPARATOPION}
-echo ${START_MESSAGE}
+
+# @param {string} message
+showMessage() {
+  echo ${SEPARATOPION}
+  echo $1
+}
+
+showMessage ${START_MESSAGE}
 
 # ls ${HOME}/path
 cd ${TARGET} && make serve
 
-echo ${SEPARATOPION}
-echo 'Please "make db" again if you would start or stop local db!'
+showMessage 'Please "make db" again if you would start or stop local db!'
