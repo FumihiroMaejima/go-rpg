@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SEPARATOPION='+++++++++++++++++++++++++++'
+SEPARATOPION='---------------------------'
 START_MESSAGE='controle local db container.'
 # CURRENT=${PWD}
 # プロジェクトごとにパスを調整する
